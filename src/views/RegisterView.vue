@@ -1,12 +1,18 @@
 <template>
     <div>
-        Register View Page
+        <SectionHeader title="Kayıt Ol"  description="Kayıt Ol Sayfasına Hoşgeldiniz!"/>
+
     </div>
 </template>
 
 <script>
+import SectionHeader from '@/components/SectionHeader.vue';
+
     export default {
-        name : "RegisterView"
+        name : "RegisterView",
+        components:{
+            SectionHeader
+        }
     }
 </script>
 

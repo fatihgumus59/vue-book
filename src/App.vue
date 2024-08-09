@@ -1,6 +1,6 @@
 <template>
     <NavBar />
-    <RouterView />
+    <RouterView /> <!-- vue router Kütüphanesi Tanıyor ve router bilgilerini işliyor-->
 </template>
 
 <script>

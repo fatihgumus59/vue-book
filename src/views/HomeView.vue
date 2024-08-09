@@ -1,12 +1,22 @@
 <template>
     <div>
-        Home View Page
+        <SectionHeader :title="title"  description="Anasayfaya Hoşgeldiniz!"/>
     </div>
 </template>
 
 <script>
+    import SectionHeader from '@/components/SectionHeader.vue';
+
     export default {
-        name : "HomeView"
+        name : "HomeView",
+        components:{
+            SectionHeader
+        },
+        data(){
+            return{
+                title :'Anasayfa'
+            }
+        }
     }
 </script>
 

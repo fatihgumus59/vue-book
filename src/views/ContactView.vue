@@ -1,12 +1,18 @@
 <template>
     <div>
-        Contact View Page
+        <SectionHeader title="İletişim"  description="İletişim Sayfasına Hoşgeldiniz!"/>
+
     </div>
 </template>
 
 <script>
+    import SectionHeader from '@/components/SectionHeader.vue';
+
     export default {
-        name : "ContactView"
+        name : "ContactView",
+        components: {
+            SectionHeader
+        }
     }
 </script>
 

@@ -1,12 +1,18 @@
 <template>
     <div>
-        Login View Page
+        <SectionHeader title="Giriş Yap"  description="Giriş Yap Sayfasına Hoşgeldiniz!"/>
+
     </div>
 </template>
 
 <script>
+import SectionHeader from '@/components/SectionHeader.vue';
+
     export default {
-        name : "LoginView"
+        name : "LoginView",
+        components:{
+            SectionHeader
+        }
     }
 </script>
 
