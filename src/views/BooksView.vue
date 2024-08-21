@@ -2,7 +2,7 @@
     <div class="container">
         <SectionHeader title="Kitaplar"  description="Kitaplar Sayfasına Hoşgeldiniz!"/>
         <BookList :books="paginatedBook"/>
-        <Pagination :currentPage="currentPage" :totalPages="totalPages"/>
+        <Pagination :currentPage="currentPage" :totalPages="totalPages" @page_next="updatePage"/>
 
     </div>
 </template>
@@ -36,6 +36,11 @@
                 const startIndex = (this.currentPage-1) * (this.itemPerPage)
                 const endIndex = startIndex+this.itemPerPage
                 return this.books.slice(startIndex,endIndex)
+            }
+        },
+        methods:{
+            updatePage(page){
+                this.currentPage = page
             }
         }
     }

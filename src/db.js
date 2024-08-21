@@ -98,6 +98,36 @@ const books = [
       rating: 4.8,
       uploadDate: '19 Jan 2021',
     },
+    {
+      id: 11,
+      name: 'The Artistic Odyssey',
+      author: 'Christopher Bennett',
+      page: 240,
+      description:
+        "A coming-of-age story about a young artist's journey to self-discovery.",
+      rating: 7.6,
+      uploadDate: '19 Jan 2021',
+    },
+    {
+      id: 12,
+      name: 'Whispers in the Woods',
+      author: 'Samantha Foster',
+      page: 280,
+      description:
+        'A collection of eerie and spine-chilling short stories set in the woods.',
+      rating: 2.3,
+      uploadDate: '19 Jan 2021',
+    },
+    {
+      id: 13,
+      name: 'Legends of Lyria',
+      author: 'Daniel Harris',
+      page: 450,
+      description:
+        'An epic fantasy series filled with knights, dragons, and quests for honor.',
+      rating: 4.8,
+      uploadDate: '19 Jan 2021',
+    },
   ];
   
   export default books;

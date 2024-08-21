@@ -1,14 +1,16 @@
 <template>
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-end">
-            <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1">Önceki</a>
+            <li class="page-item" :class="{'disabled' : currentPage === 1}">
+                <a class="page-link" @click="goToPage(currentPage != 1 ? currentPage - 1 : 1)" href="#" tabindex="-1">Önceki</a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">Sonraki</a>
+
+            <li class="page-item" :class="{'active' : currentPage === page}" v-for="page in totalPages" :key="page">
+                <a class="page-link" @click="goToPage(page)" href="#">{{ page }}</a>
+            </li>
+
+            <li class="page-item" :class="{'disabled': currentPage === totalPages}" >
+                <a class="page-link" @click="goToPage(currentPage != totalPages ? currentPage + 1 : totalPages)" href="#">Sonraki</a>
             </li>
         </ul>
     </nav>
@@ -17,6 +19,7 @@
 <script>
 export default {
     name: "Pagination",
+    emits :['page_next'],
     props:{
         currentPage:{
             type : Number,
@@ -25,6 +28,11 @@ export default {
         totalPages:{
             type:Number,
             required : true,
+        }
+    },
+    methods:{
+        goToPage(page){
+            this.$emit('page_next',page)
         }
     }
 }
