@@ -1,18 +1,19 @@
 <template>
     <section>
     <div class="container">
-        <SectionHeader title="Kitap Detay"  description="Kitaplar Sayfasına Hoşgeldiniz!"/>
-        <div class="row">
+        <SectionHeader :title="book.name"  :description="book.author"/>
+        <i class="fa fa-arrow-left fa-2x mb-2" @click="goBackBooks"></i>
+        <div class="row mb-4">
             <div class="col-lg-6">
                 <img src="../../template/images/b2.jpg" alt="" class="card-img-top">
             </div>
             <div class="col-lg-6 details-wrapper">
-                <p class="lead description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus pariatur aperiam quam adipisci id, rerum repudiandae est. Voluptates aliquid quasi, dolorem natus accusamus itaque ipsam, asperiores aspernatur harum, amet ratione id aut ex expedita non in tempore provident. Id eos ea minima ipsa delectus impedit accusantium optio. Laudantium, hic eligendi.</p>
+                <p class="lead description">{{ book.description }}</p>
                 
                 <div class="mb-4">
                     <div class="row border-bottom pb-2">
                         <div class="col-lg-6"><strong>Page</strong></div>
-                        <div class="col-lg-6">278</div>
+                        <div class="col-lg-6">{{book.page}}</div>
                     </div>
     
                     <div class="row border-bottom pb-2">
@@ -22,12 +23,12 @@
     
                     <div class="row border-bottom pb-2">
                         <div class="col-lg-6"><strong>Rating</strong></div>
-                        <div class="col-lg-6">7.8</div>
+                        <div class="col-lg-6">{{ book.rating }}</div>
                     </div>
     
                     <div class="row border-bottom pb-2">
                         <div class="col-lg-6"><strong>Upload Date</strong></div>
-                        <div class="col-lg-6">19 Jan 2019</div>
+                        <div class="col-lg-6">{{ book.uploadDate }}</div>
                     </div>
                 </div>
 
@@ -37,77 +38,55 @@
                     <div class="card mb-2">
                         <div class="card-body">
                             <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur, dolorum.</p>
-                            <div class="flex justify-content-between">
-                                <p class="fw-bold fst-italic">John Doe</p>
-                                <div class="d-flex align-items-center">
-                                    <p>Upvote</p>
-                                    <p class="ps-2"><strong>8</strong></p>
-                                </div>
+                            <div class="d-flex justify-content-between">
+                            <p class="fw-bold fst-italic mb-0">John Doe</p>
+                            <div class="d-flex align-items-center">
+                                <i class="fa fa-thumbs-up"></i>
+                                <p class="ps-2 mb-0"><strong>8</strong></p>
                             </div>
                         </div>
-                    </div>
-                    <div class="card mb-2">
-                        <div class="card-body">
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur, dolorum.</p>
-                            <div class="flex justify-content-between">
-                                <p class="fw-bold fst-italic">John Doe</p>
-                                <div class="d-flex align-items-center">
-                                    <p>Upvote</p>
-                                    <p class="ps-2"><strong>8</strong></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card mb-2">
-                        <div class="card-body">
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur, dolorum.</p>
-                            <div class="flex justify-content-between">
-                                <p class="fw-bold fst-italic">John Doe</p>
-                                <div class="d-flex align-items-center">
-                                    <p>Upvote</p>
-                                    <p class="ps-2"><strong>8</strong></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card mb-2">
-                        <div class="card-body">
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur, dolorum.</p>
-                            <div class="flex justify-content-between">
-                                <p class="fw-bold fst-italic">John Doe</p>
-                                <div class="d-flex align-items-center">
-                                    <p>Upvote</p>
-                                    <p class="ps-2"><strong>8</strong></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card mb-2">
-                        <div class="card-body">
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur, dolorum.</p>
-                            <div class="flex justify-content-between">
-                                <p class="fw-bold fst-italic">John Doe</p>
-                                <div class="d-flex align-items-center">
-                                    <p>Upvote</p>
-                                    <p class="ps-2"><strong>8</strong></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card mb-2">
-                        <div class="card-body">
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur, dolorum.</p>
-                            <div class="flex justify-content-between">
-                                <p class="fw-bold fst-italic">John Doe</p>
-                                <div class="d-flex align-items-center">
-                                    <p>Upvote</p>
-                                    <p class="ps-2"><strong>8</strong></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
 
+                        </div>
+                    </div>                   
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur, dolorum.</p>
+                            <div class="d-flex justify-content-between">
+                            <p class="fw-bold fst-italic mb-0">John Doe</p>
+                            <div class="d-flex align-items-center">
+                                <i class="fa fa-thumbs-up"></i>
+                                <p class="ps-2 mb-0"><strong>8</strong></p>
+                            </div>
+                        </div>
+
+                        </div>
+                    </div>    
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur, dolorum.</p>
+                            <div class="d-flex justify-content-between">
+                            <p class="fw-bold fst-italic mb-0">John Doe</p>
+                            <div class="d-flex align-items-center">
+                                <i class="fa fa-thumbs-up"></i>
+                                <p class="ps-2 mb-0"><strong>8</strong></p>
+                            </div>
+                        </div>
+
+                        </div>
+                    </div>    
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur, dolorum.</p>
+                            <div class="d-flex justify-content-between">
+                            <p class="fw-bold fst-italic mb-0">John Doe</p>
+                            <div class="d-flex align-items-center">
+                                <i class="fa fa-thumbs-up"></i>
+                                <p class="ps-2 mb-0"><strong>8</strong></p>
+                            </div>
+                        </div>
+
+                        </div>
+                    </div>    
                 </div>
                 
             </div>
@@ -119,11 +98,38 @@
 </template>
 
 <script>
-import SectionHeader from '@/components/SectionHeader.vue';
+    import SectionHeader from '@/components/SectionHeader.vue';
+    import books from '@/db';
+    import 'font-awesome/css/font-awesome.css'
+
     export default {
         name:"BookDetailsView",
+        props:{
+            title:{
+                type:String,
+                default : ""
+            },
+            description:{
+                type:String,
+                default: ""
+            }
+        },
         components:{
             SectionHeader,
+        },
+        methods:{
+            goBackBooks(){
+               return this.$router.push({name : "books"})
+            }
+        },
+        data(){
+            return{
+                book:null
+            }
+        },
+        created(){
+            const bookId = this.$route.params.id
+            this.book = books.find(book => book.id === parseInt(bookId))
         }
     }
 </script>
