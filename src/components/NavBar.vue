@@ -36,7 +36,7 @@ export default {
 <style scoped>
  /*css kodlarının sadece bu dizinde geçerli olması için scoped eklendi */
  .custom-nav {
-     background-color: #063457;
+     background-color: var(--primary-color);
      padding: 15px 0;
  }
 
@@ -54,9 +54,9 @@ export default {
  }
 
  .nav-link:hover {
-    color: #44b89d;
+    color: var(--secondary-color)
  }
  .active-link{
-    color: #44b89d;
+    color: var(--secondary-color)
  }
 </style>

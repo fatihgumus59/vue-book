@@ -3,7 +3,7 @@
         <img src="../../template/images/b1.jpg" class="card-img-top">
         <div class="card-body">
             <div class="auth-box">
-                <span style="background-color: #063547;" class="py-1 px-3 text-white rounded-pill">
+                <span style="background-color: var(--primary-color);" class="py-1 px-3 text-white rounded-pill">
                     {{ book.author }}
                 </span>
             </div>
