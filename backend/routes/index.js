@@ -1,0 +1,1 @@
+export {default as bookRoute} from "./bookRoute.js";
