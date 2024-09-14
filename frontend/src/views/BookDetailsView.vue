@@ -1,7 +1,7 @@
 <template>
     <section class="full-section-height">
-        <div class="container">
-            <SectionHeader :title="book.name"  :description="book.author"/>
+        <div class="container" v-if="!loading">
+            <SectionHeader :title="book.title"  :description="book.author"/>
             <i class="fa fa-arrow-left fa-2x mb-2" @click="goBackBooks"></i>
             <div class="row mb-4">
                 <div class="col-lg-6">
@@ -13,7 +13,7 @@
                     <div class="mb-4">
                         <div class="row border-bottom pb-2">
                             <div class="col-lg-6"><strong>Page</strong></div>
-                            <div class="col-lg-6">{{book.page}}</div>
+                            <div class="col-lg-6">{{book.pageNumber}}</div>
                         </div>
         
                         <div class="row border-bottom pb-2">
@@ -28,7 +28,7 @@
         
                         <div class="row border-bottom pb-2">
                             <div class="col-lg-6"><strong>Upload Date</strong></div>
-                            <div class="col-lg-6">{{ book.uploadDate }}</div>
+                            <div class="col-lg-6">{{ book.updatedAt }}</div>
                         </div>
                     </div>
 
@@ -92,12 +92,14 @@
                 </div>
             </div>
         </div>
+        <div class="container" v-else>
+            <p>Book loading...</p>
+        </div>
     </section>>
 </template>
 
 <script>
     import SectionHeader from '@/components/SectionHeader.vue';
-    import books from '@/db';
     import 'font-awesome/css/font-awesome.css'
 
     export default {
@@ -115,20 +117,31 @@
         components:{
             SectionHeader,
         },
-        methods:{
-            goBackBooks(){
-               return this.$router.push({name : "books"})
-            }
-        },
         data(){
             return{
-                book:null
+                book: null,
+                loading : true,
             }
         },
         created(){
-            const bookId = this.$route.params.id
-            this.book = books.find(book => book.id === parseInt(bookId))
-        }
+           this.fetchBook();
+        },
+        methods:{
+            goBackBooks(){
+               return this.$router.push({name : "books"})
+            },
+            async fetchBook(){
+                try {
+                    const bookId = this.$route.params.id
+                    const responseBook = await fetch(`http://localhost:3000/api/v1/books/${bookId}`);
+                    const data = await responseBook.json();
+                    this.book = data.data;
+                    this.loading = false;
+                } catch (error) {
+                    
+                }
+            }
+        },
     }
 </script>
 
