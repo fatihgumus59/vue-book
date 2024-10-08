@@ -1,10 +1,11 @@
 <template>
     <section>
-        <Carousel :items="carouselItems">
+        <Carousel :items="carouselItems" height="400px">
 
         </Carousel>
     </section>
 </template>
+
 
 <script>
 import Carousel from '@/components/widgets/Carousel.vue';
