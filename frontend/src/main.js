@@ -6,8 +6,17 @@ import App from '@/App.vue';
 import router from '@/router/index'
 import {createPinia} from 'pinia'
 
-const app = createApp(App);
-app
-.use(createPinia())
-.use(router)
-.mount('#app');
+import { useBookStore } from './stores/bookStore';
+
+const pinia = createPinia();
+const bookStore = useBookStore(pinia);
+
+bookStore.fetchBooks().then(()=>{
+
+    const app = createApp(App);
+    
+    app
+    .use(router)
+    .mount('#app');
+})
+

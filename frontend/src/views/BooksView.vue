@@ -4,7 +4,7 @@
         <div class="container">
             <SectionHeader title="Kitaplar" description="Kitaplar Sayfasına Hoşgeldiniz!" />
             <BookList :books="paginatedBook" />
-            <Pagination :currentPage="currentPage" :totalPages="totalPages" @page_next="updatePage" />
+            <PaginationWidget :currentPage="currentPage" :totalPages="totalPages" @page_next="updatePage" />
 
         </div>
     </section>
@@ -13,7 +13,7 @@
 <script>
 import SectionHeader from '@/components/SectionHeader.vue';
 import BookList from '@/components/BookList.vue';
-import Pagination from '@/components/Pagination.vue';
+import PaginationWidget from '@/components/widgets/PaginationWidget.vue';
 import { useBookStore } from '@/stores/bookStore';
 import { mapState } from 'pinia';
 
@@ -23,7 +23,7 @@ export default {
     components: {
         SectionHeader,
         BookList,
-        Pagination
+        PaginationWidget
     },
     data() {
         return {

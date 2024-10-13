@@ -18,7 +18,7 @@
 
 <script>
 export default {
-    name: "Pagination",
+    name: "PaginationWidget",
     emits :['page_next'],
     props:{
         currentPage:{
