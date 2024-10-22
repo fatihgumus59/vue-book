@@ -4,7 +4,7 @@ import config from "./config/index.js";
 import db from "./database/index.js";
 import cors from "cors"
 
-import {bookRoute} from "./routes/index.js";
+import {bookRoute,userRoute} from "./routes/index.js";
 
 config();
 db();
@@ -26,6 +26,8 @@ app.use(
 app.listen(process.env.APP_PORT, () => {
   console.log(`APP started port ${process.env.APP_PORT}`);
   app.use('/api/v1/books', bookRoute);
+  app.use('/api/v1/auth', userRoute);
+
 
   
   app.use(function(req, res, next) {

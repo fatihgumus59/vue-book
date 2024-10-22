@@ -1,7 +1,9 @@
-import {insert,modify,remove,getById,listAll} from "../services/book.js"
+import {insert,modify,remove,getById,listAll} from "../services/user.js"
 import { isValidObjectId } from "../utils/index.js";
+import {passwordToHash} from "../utils/helper/token.js"
+import User from "../model/user.js"
 
-const getAllBooks = async (req,res)=>{
+const getAllUsers = async (req,res)=>{
 
     try{
 
@@ -10,7 +12,7 @@ const getAllBooks = async (req,res)=>{
 
             return res.status(200).json({
                 status : 200,
-                message:"Listed Books",
+                message:"Listed Users",
                 data: response
             })
         })
@@ -18,7 +20,7 @@ const getAllBooks = async (req,res)=>{
 
             return res.status(500).json({
                 status : 500,
-                message:"Not Listed Books",
+                message:"Not Listed Users",
                 error: err
             })
         })
@@ -31,7 +33,7 @@ const getAllBooks = async (req,res)=>{
     }
 }
 
-const getABook = async (req,res)=>{
+const getAUser = async (req,res)=>{
 
     const {id} = req.params;
     if(isValidObjectId(id,res)) return;
@@ -41,11 +43,11 @@ const getABook = async (req,res)=>{
         getById(id)
         .then((response)=>{
 
-            if(!response) return res.status(500).json({message : "Not Listed Book"});
+            if(!response) return res.status(500).json({message : "Not Listed User"});
 
             return res.status(200).json({
                 status : 200,
-                message:"Listed Book",
+                message:"Listed User",
                 data: response
             })
         })
@@ -53,7 +55,7 @@ const getABook = async (req,res)=>{
 
             return res.status(500).json({
                 status : 500,
-                message:"Not Listed Book",
+                message:"Not Listed User",
                 error: err
             })
         })
@@ -66,24 +68,27 @@ const getABook = async (req,res)=>{
     }
 }
 
-const createABook = async (req,res)=>{
+const register = async (req,res)=>{
 
     try{
 
+        req.body.password = passwordToHash(req.body.password);
+
         const data ={
-            title : req.body?.title,
-            author : req.body?.author,
-            description : req.body?.description,
-            pageNumber : req.body?.pageNumber,
-            rating : req.body?.rating,
+            username : req.body?.username,
+            email : req.body?.email,
+            password : req.body?.password,
+            admin : false,
         }
 
         insert(data)
         .then((response)=>{
 
+            response.password = undefined;
+
             return res.status(201).json({
                 status : 201,
-                message:"Created Books",
+                message:"Created User",
                 data: response
             })
         })
@@ -91,7 +96,7 @@ const createABook = async (req,res)=>{
 
             return res.status(500).json({
                 status : 500,
-                message:"Not Created Books",
+                message:"Not Created Users",
                 error: err
             })
         })
@@ -104,27 +109,30 @@ const createABook = async (req,res)=>{
     }
 }
 
-const updateBook = async (req,res)=>{
+const updateUser = async (req,res)=>{
 
     const {id} = req.params;
     if(isValidObjectId(id,res)) return;
 
     try{
 
+        const user = await User.findOne({email : req.body?.email})
+        if(user) return res.status(400).json({message : "The Email is already exist"})
+
+        req.body.password = passwordToHash(req.body.password);
+
         const data ={
-            title : req.body?.title,
-            author : req.body?.author,
-            description : req.body?.description,
-            pageNumber : req.body?.pageNumber,
-            rating : req.body?.rating,
+            username : req.body?.username,
+            email : req.body?.email,
+            password : req.body?.password,
         }
 
         modify(id,data)
         .then((response)=>{
 
-            return res.status(201).json({
-                status : 201,
-                message:"Updates Books",
+            return res.status(200).json({
+                status : 200,
+                message:"Updates Users",
                 data: response
             })
         })
@@ -132,7 +140,7 @@ const updateBook = async (req,res)=>{
 
             return res.status(500).json({
                 status : 500,
-                message:"Not Updates Books",
+                message:"Not Updates Users",
                 error: err
             })
         })
@@ -145,28 +153,29 @@ const updateBook = async (req,res)=>{
     }
 }
 
-const removeBook = async (req,res)=>{
+const removeUser = async (req,res)=>{
 
     const {id} = req.params;
     if(isValidObjectId(id,res)) return;
 
     try{
 
+
         remove(id)
         .then((response)=>{
 
-            if(!response) return res.status(500).json({message: "Not Removed Book"})
+            if(!response) return res.status(500).json({message: "Not Removed User"})
 
             return res.status(201).json({
                 status : 201,
-                message:"Removed Books",
+                message:"Removed Users",
             })
         })
         .catch((err)=>{
 
             return res.status(500).json({
                 status : 500,
-                message:"Not Removed Books",
+                message:"Not Removed Users",
                 error: err
             })
         })
@@ -180,9 +189,9 @@ const removeBook = async (req,res)=>{
 }
 
 export{
-    getAllBooks,
-    getABook,
-    createABook,
-    updateBook,
-    removeBook
+    getAllUsers,
+    getAUser,
+    register,
+    updateUser,
+    removeUser
 }
