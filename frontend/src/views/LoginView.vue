@@ -34,6 +34,8 @@
 
 <script>
 import SectionHeader from '@/components/SectionHeader.vue';
+import { useUserStore } from '@/stores/userStore';
+import { mapActions } from 'pinia';
 
 export default {
     name: "LoginView",
@@ -49,8 +51,15 @@ export default {
     }
   },
   methods: {
-    submitForm(event) {
-      console.log("login form gönderildi: ", this.formData);
+    ...mapActions(useUserStore,['login']),
+    async submitForm(data) {
+     try {
+        await this.login(this.formData)
+        console.log('success');router.route('/register')
+        .post(userController.register)
+     } catch (error) {
+        console.log('error',error);
+     }
     }
   }
 }

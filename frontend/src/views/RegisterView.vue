@@ -6,7 +6,7 @@
           <!-- Username Field (Medium and Larger Screens) -->
           <div class="col-md-6 col-8 mb-3">
             <label for="username" class="form-label">Username</label>
-            <input type="text" class="form-control" id="username" name="username" v-model.trim="formData.username"
+            <input type="text" class="form-control" id="username" name="username"  v-model.trim="formData.username"
               required>
           </div>
         </div>
@@ -15,7 +15,7 @@
           <!-- Email Field (Medium and Larger Screens) -->
           <div class="col-md-6 col-8 mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" v-model.trim="this.formData.email"
+            <input type="email" class="form-control" id="email" name="email"  v-model.trim="this.formData.email"
               required>
           </div>
         </div>
@@ -24,7 +24,7 @@
         <div class="row justify-content-center">
           <div class="col-md-6 col-8 mb-3">
             <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" name="password" v-model="this.formData.password"
+            <input type="password" class="form-control" id="password" name="password"  v-model="this.formData.password"
               required>
           </div>
         </div>
@@ -44,6 +44,8 @@
 
 <script>
 
+import { useUserStore } from '@/stores/userStore';
+import { mapActions } from 'pinia';
 
 export default {
   name: "RegisterView",
@@ -57,8 +59,14 @@ export default {
     }
   },
   methods: {
-    submitForm(event) {
-      console.log("form gönderildi: ", this.formData);
+    ...mapActions(useUserStore,['register']),
+    async submitForm(data) {
+      try {
+        await this.register(this.formData)
+        console.log('success');
+      } catch (error) {
+        console.log('err',error);
+      }
     }
   }
 }
