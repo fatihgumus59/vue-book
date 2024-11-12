@@ -2,6 +2,16 @@
   <section class="full-section-height">
     <div class="container">
       <form class="mt-5" autocomplete="off" @submit.prevent="submitForm">
+
+        <div class="row justify-content-center">
+          <!-- Username Field (Medium and Larger Screens) -->
+          <div class="col-md-6 col-8 mb-3">
+            <label for="username" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name"  v-model.trim="formData.name"
+              required>
+          </div>
+        </div>
+
         <div class="row justify-content-center">
           <!-- Username Field (Medium and Larger Screens) -->
           <div class="col-md-6 col-8 mb-3">
@@ -52,6 +62,7 @@ export default {
   data() {
     return {
       formData: {
+        name:"",
         username: "",
         email: "",
         password: "",
@@ -63,7 +74,7 @@ export default {
     async submitForm(data) {
       try {
         await this.register(this.formData)
-        console.log('success');
+        this.$router.push('/login');
       } catch (error) {
         console.log('err',error);
       }

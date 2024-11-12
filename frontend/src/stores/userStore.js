@@ -7,7 +7,9 @@ export const useUserStore = defineStore('userStore',{
     }),
 
     getters:{
-
+        isLoggedIn : (state)=>{
+            return !!state.user
+        }
     },
 
     actions:{
@@ -15,12 +17,11 @@ export const useUserStore = defineStore('userStore',{
 
             try{
                 const response = await axios.post('http://localhost:3000/api/v1/auth/register',data)
-                
-                console.log('ress',response);
+            
                 //this.user = response ? response?.data?.data : [];
 
             }catch(error){
-                console.log('not register user',error);
+                throw error
             }
 
         },
@@ -28,12 +29,14 @@ export const useUserStore = defineStore('userStore',{
 
             try{
                 const response = await axios.post('http://localhost:3000/api/v1/auth/login',data)
+                this.user = response.data.user;
+                localStorage.setItem('user',JSON.stringify(this.user))
                 
                 console.log('ress',response);
                 //this.user = response ? response?.data?.data : [];
 
             }catch(error){
-                console.log('not register user',error);
+               throw error
             }
 
         }

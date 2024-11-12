@@ -5,9 +5,15 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const userSchema = new Schema({
 
+    name:{
+        type: String,
+        required: true,
+        default: '',
+    },
     username:{
         type: String,
         required: true,
+        unique : true,
         trim: true,
         maxLength:20,
     },
@@ -20,7 +26,7 @@ const userSchema = new Schema({
     },
     password:{
         type: String,
-        required: true,
+        default: '',
         trim: true,
     },
     admin:{

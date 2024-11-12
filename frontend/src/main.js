@@ -6,9 +6,17 @@ import App from '@/App.vue';
 import router from '@/router/index'
 import {createPinia} from 'pinia'
 
-import { useBookStore } from './stores/bookStore';
+import { useBookStore } from '@/stores/bookStore';
+import { useUserStore } from '@/stores/userStore';
 
 const pinia = createPinia();
+const storedUser = localStorage.getItem('user');
+
+if(storedUser){
+    const userData = JSON.parse(storedUser);
+    useUserStore(pinia).user = userData;
+}
+
 const bookStore = useBookStore(pinia);
 
 bookStore.fetchBooks().then(()=>{

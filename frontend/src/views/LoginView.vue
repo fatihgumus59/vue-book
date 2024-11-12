@@ -55,8 +55,7 @@ export default {
     async submitForm(data) {
      try {
         await this.login(this.formData)
-        console.log('success');router.route('/register')
-        .post(userController.register)
+        this.$router.push('/dashboard');
      } catch (error) {
         console.log('error',error);
      }

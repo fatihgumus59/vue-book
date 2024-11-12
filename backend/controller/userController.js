@@ -1,197 +1,212 @@
-import {insert,modify,remove,getById,listAll} from "../services/user.js"
+import { modify, remove, getById, listAll } from "../services/user.js";
 import { isValidObjectId } from "../utils/index.js";
-import {passwordToHash} from "../utils/helper/token.js"
-import User from "../model/user.js"
+import { passwordToHash } from "../utils/helper/token.js";
+import User from "../model/user.js";
 
-const getAllUsers = async (req,res)=>{
+const register = async (req, res) => {
 
-    try{
+  try {
 
-        listAll()
-        .then((response)=>{
+    req.body.password = passwordToHash(req.body.password);
 
-            return res.status(200).json({
-                status : 200,
-                message:"Listed Users",
-                data: response
-            })
-        })
-        .catch((err)=>{
 
-            return res.status(500).json({
-                status : 500,
-                message:"Not Listed Users",
-                error: err
-            })
-        })
-
-    }catch(error){
-        return res.status(500).json({
-            status : 500,
-            message: "Error"
-        })
+    const data = {
+      username: req.body?.username,
+      name: req.body?.name,
+      email: req.body?.email,
+      password: req.body?.password
     }
-}
 
-const getAUser = async (req,res)=>{
+    const user = await User.create(data)
+      .then(async (response) => {
 
-    const {id} = req.params;
-    if(isValidObjectId(id,res)) return;
+        if (response) {
+          return res.status(201).json({ message: 'Başarılı' });
 
-    try{
-
-        getById(id)
-        .then((response)=>{
-
-            if(!response) return res.status(500).json({message : "Not Listed User"});
-
-            return res.status(200).json({
-                status : 200,
-                message:"Listed User",
-                data: response
-            })
-        })
-        .catch((err)=>{
-
-            return res.status(500).json({
-                status : 500,
-                message:"Not Listed User",
-                error: err
-            })
-        })
-
-    }catch(error){
-        return res.status(500).json({
-            status : 500,
-            message: "Error"
-        })
-    }
-}
-
-const register = async (req,res)=>{
-
-    try{
-
-        req.body.password = passwordToHash(req.body.password);
-
-        const data ={
-            username : req.body?.username,
-            email : req.body?.email,
-            password : req.body?.password,
-            admin : false,
+        } else {
+          return res.status(400).json({ message: 'Hatalı oluştu.' });
         }
 
-        insert(data)
-        .then((response)=>{
+      })
+      .catch(async (e) => {
+        const username = await User.findOne({ username: req.body.username, }).select('username');
+        const email = await User.findOne({ email: req.body.email }).select('email');
 
-            response.password = undefined;
-
-            return res.status(201).json({
-                status : 201,
-                message:"Created User",
-                data: response
-            })
-        })
-        .catch((err)=>{
-
-            return res.status(500).json({
-                status : 500,
-                message:"Not Created Users",
-                error: err
-            })
-        })
-
-    }catch(error){
-        return res.status(500).json({
-            status : 500,
-            message: "Error"
-        })
-    }
-}
-
-const updateUser = async (req,res)=>{
-
-    const {id} = req.params;
-    if(isValidObjectId(id,res)) return;
-
-    try{
-
-        const user = await User.findOne({email : req.body?.email})
-        if(user) return res.status(400).json({message : "The Email is already exist"})
-
-        req.body.password = passwordToHash(req.body.password);
-
-        const data ={
-            username : req.body?.username,
-            email : req.body?.email,
-            password : req.body?.password,
+        console.log(e);
+        if (username) {
+          return res.status(400).json({ message: 'Girilen kullanıcı adı sistemde kayıtlı.' });
+        } else if (email) {
+          return res.status(400).json({ message: 'Girilen email sistemde kayıtlı.' });
+        } else {
+          return res.status(400).json({ message: 'Hata Oluştu.' });
         }
+      });
 
-        modify(id,data)
-        .then((response)=>{
+  } catch (error) {
+    return res.status(400).json({ message: 'Sistemsel bir hata Oluştu.' });
+  }
+};
 
-            return res.status(200).json({
-                status : 200,
-                message:"Updates Users",
-                data: response
-            })
-        })
-        .catch((err)=>{
-
-            return res.status(500).json({
-                status : 500,
-                message:"Not Updates Users",
-                error: err
-            })
-        })
-
-    }catch(error){
-        return res.status(500).json({
-            status : 500,
-            message: "Error"
-        })
+const login = async (req, res) => {
+  try {
+    if (!req.body?.email || !req.body?.password) {
+      return res
+        .status(400)
+        .json({ message: "Doldurulması gereken alanlar var." });
     }
-}
 
-const removeUser = async (req,res)=>{
+    req.body.password = passwordToHash(req.body.password);
 
-    const {id} = req.params;
-    if(isValidObjectId(id,res)) return;
+    const data = {
+      email: req.body?.email,
+      password: req.body?.password,
+    };
 
-    try{
 
+    const user = await User.findOne({ email: req.body.email });
 
-        remove(id)
-        .then((response)=>{
-
-            if(!response) return res.status(500).json({message: "Not Removed User"})
-
-            return res.status(201).json({
-                status : 201,
-                message:"Removed Users",
-            })
-        })
-        .catch((err)=>{
-
-            return res.status(500).json({
-                status : 500,
-                message:"Not Removed Users",
-                error: err
-            })
-        })
-
-    }catch(error){
-        return res.status(500).json({
-            status : 500,
-            message: "Error"
-        })
+    if (!user) {
+      return res.status(404).json({ message: "E-posta bulunamadı." });
     }
-}
 
-export{
-    getAllUsers,
-    getAUser,
-    register,
-    updateUser,
-    removeUser
-}
+    if (user.password !== req.body.password) {
+      return res.status(401).json({ message: "Hatalı şifre girişi, lütfen tekrar deneyiniz." });
+    }
+
+    const { password, ...notPassword } = user.toObject(); //şifreyi silip kalanını notPassword değişkenine atadık ->destructuring
+
+    return res.status(200).json({ message: "success", user: notPassword });
+
+      } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Giriş Yapılamadı." });
+      }
+    };
+
+const getAllUsers = async (req, res) => {
+  try {
+    listAll()
+      .then((response) => {
+        return res.status(200).json({
+          status: 200,
+          message: "Listed Users",
+          data: response,
+        });
+      })
+      .catch((err) => {
+        return res.status(500).json({
+          status: 500,
+          message: "Not Listed Users",
+          error: err,
+        });
+      });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      message: "Error",
+    });
+  }
+};
+
+const getAUser = async (req, res) => {
+  const { id } = req.params;
+  if (isValidObjectId(id, res)) return;
+
+  try {
+    getById(id)
+      .then((response) => {
+        if (!response)
+          return res.status(500).json({ message: "Not Listed User" });
+
+        return res.status(200).json({
+          status: 200,
+          message: "Listed User",
+          data: response,
+        });
+      })
+      .catch((err) => {
+        return res.status(500).json({
+          status: 500,
+          message: "Not Listed User",
+          error: err,
+        });
+      });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      message: "Error",
+    });
+  }
+};
+
+const updateUser = async (req, res) => {
+  const { id } = req.params;
+  if (isValidObjectId(id, res)) return;
+
+  try {
+    const user = await User.findOne({ email: req.body?.email });
+    if (user)
+      return res.status(400).json({ message: "The Email is already exist" });
+
+    req.body.password = passwordToHash(req.body.password);
+
+    const data = {
+      username: req.body?.username,
+      email: req.body?.email,
+      password: req.body?.password,
+    };
+
+    modify(id, data)
+      .then((response) => {
+        return res.status(200).json({
+          status: 200,
+          message: "Updates Users",
+          data: response,
+        });
+      })
+      .catch((err) => {
+        return res.status(500).json({
+          status: 500,
+          message: "Not Updates Users",
+          error: err,
+        });
+      });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      message: "Error",
+    });
+  }
+};
+
+const removeUser = async (req, res) => {
+  const { id } = req.params;
+  if (isValidObjectId(id, res)) return;
+
+  try {
+    remove(id)
+      .then((response) => {
+        if (!response)
+          return res.status(500).json({ message: "Not Removed User" });
+
+        return res.status(201).json({
+          status: 201,
+          message: "Removed Users",
+        });
+      })
+      .catch((err) => {
+        return res.status(500).json({
+          status: 500,
+          message: "Not Removed Users",
+          error: err,
+        });
+      });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      message: "Error",
+    });
+  }
+};
+
+export { register, login, getAllUsers, getAUser, updateUser, removeUser };
