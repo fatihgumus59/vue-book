@@ -1,6 +1,6 @@
 import { modify, remove, getById, listAll } from "../services/user.js";
 import { isValidObjectId } from "../utils/index.js";
-import { passwordToHash } from "../utils/helper/token.js";
+import { passwordToHash ,accessToken} from "../utils/helper/token.js";
 import User from "../model/user.js";
 
 const register = async (req, res) => {
@@ -75,7 +75,9 @@ const login = async (req, res) => {
 
     const { password, ...notPassword } = user.toObject(); //şifreyi silip kalanını notPassword değişkenine atadık ->destructuring
 
-    return res.status(200).json({ message: "success", user: notPassword });
+    const acces_token = accessToken(user?._id)
+
+    return res.status(200).json({ message: "success", user: notPassword,acces_token });
 
       } catch (error) {
         console.log(error);

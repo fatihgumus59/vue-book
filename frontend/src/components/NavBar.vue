@@ -18,6 +18,9 @@
                 <li class="nav item" v-if="!isLoggedIn">
                     <RouterLink :to="{ name : 'register' }" class="nav-link">Register</RouterLink>
                 </li>
+                <li class="nav item" v-if="isLoggedIn">
+                    <button class="nav-link" @click="logoutUser">Logout</button>
+                </li>
 
             </ul>
         </div>
@@ -28,7 +31,7 @@
 <script>
 import { RouterLink } from 'vue-router';
 import { useUserStore } from '@/stores/userStore';
-import { mapState } from 'pinia';
+import { mapState,mapActions } from 'pinia';
 
 
 export default {
@@ -36,6 +39,13 @@ export default {
     computed:{
         ...mapState(useUserStore,['isLoggedIn'])
     },
+    methods:{
+        ...mapActions(useUserStore,['logout']),
+        logoutUser(){
+            this.logout()
+
+        }
+    }
 }
 </script>
 
