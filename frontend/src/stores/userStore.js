@@ -21,7 +21,7 @@ export const useUserStore = defineStore('userStore',{
                 //this.user = response ? response?.data?.data : [];
 
             }catch(error){
-                throw error
+                throw error.response.data
             }
 
         },
@@ -36,7 +36,7 @@ export const useUserStore = defineStore('userStore',{
                 //this.user = response ? response?.data?.data : [];
 
             }catch(error){
-               throw error
+                throw error.response.data
             }
 
         },

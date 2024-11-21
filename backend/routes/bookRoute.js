@@ -5,11 +5,11 @@ import * as authMiddleware from "../middlewares/auth.js";
 const router = express.Router();
 
 router.route('/')
-    .get(authMiddleware.authenticateUser,bookController.getAllBooks)
+    .get(bookController.getAllBooks)
     .post(authMiddleware.authenticateUser,bookController.createABook)
 
 router.route('/:id')
-    .get(authMiddleware.authenticateUser,bookController.getABook)
+    .get(bookController.getABook)
     .patch(authMiddleware.authenticateUser,bookController.updateBook)
     .delete(authMiddleware.authenticateUser,bookController.removeBook)
 
