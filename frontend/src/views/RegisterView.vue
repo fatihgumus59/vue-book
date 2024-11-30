@@ -95,6 +95,7 @@
 
 import { useUserStore } from '@/stores/userStore';
 import { mapActions } from 'pinia';
+import { useToast } from 'vue-toastification';
 
 export default {
   name: "RegisterView",
@@ -119,7 +120,23 @@ export default {
     async submitForm(data) {
       try {
         await this.register(this.formData)
-        this.$router.push('/login');
+
+        const toast = useToast()
+
+        toast.success('Başarıyla kayıt olundu.',{
+          position:'top-right',
+          timeout:5000,
+          closeButton: 'button',
+          icon:'fas fa-rocket'
+        })
+
+
+        setTimeout(() => {
+          this.$router.push('/login');
+          
+        }, 4000);
+
+
       } catch (data) {
         const {message} = data;
         if(message === 'Girilen kullanıcı adı sistemde kayıtlı.'){
@@ -154,23 +171,5 @@ export default {
 </script>
 
 <style scoped>
-.form-control{
-  border-radius: 25px;
-  height: 48px;
-}
-.form-control:focus{
-  box-shadow: none;
-}
-.btn-primary{
-  border-radius: 25px;
-  height: 48px;
-  background-color: var(--secondary-color);
-  border: 1px solid var(--secondary-color);
-}
-.btn-primary:hover{
-  background-color: #fff;
-  color: var(--secondary-color);
-  transition: all 0.3s ease;
-}
 
 </style>

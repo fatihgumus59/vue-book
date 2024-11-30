@@ -31,8 +31,7 @@ export const useUserStore = defineStore('userStore',{
                 const response = await axios.post('http://localhost:3000/api/v1/auth/login',data)
                 this.user = response.data.user;
                 localStorage.setItem('user',JSON.stringify(this.user))
-                
-                console.log('ress',response);
+
                 //this.user = response ? response?.data?.data : [];
 
             }catch(error){

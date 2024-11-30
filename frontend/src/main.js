@@ -6,6 +6,9 @@ import App from '@/App.vue';
 import router from '@/router/index'
 import {createPinia} from 'pinia'
 
+import Toast from 'vue-toastification'
+import "vue-toastification/dist/index.css";
+
 import { useBookStore } from '@/stores/bookStore';
 import { useUserStore } from '@/stores/userStore';
 
@@ -25,6 +28,7 @@ bookStore.fetchBooks().then(()=>{
     
     app
     .use(router)
+    .use(Toast)
     .mount('#app');
 })
 
