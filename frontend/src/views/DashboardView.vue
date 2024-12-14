@@ -116,7 +116,7 @@
   </template>
   
   <script>
-  import { useUserStore } from '@/stores/userStore.js';
+  import { useAuthStore } from '@/stores/authStore.js';
 
   import { mapState } from 'pinia';
   export default {
@@ -137,7 +137,7 @@
       this.userInfo.email = this.user.email;
     },
     computed: {
-      ...mapState(useUserStore, ['user']),
+      ...mapState(useAuthStore, ['user']),
     },
     methods: {
       toggleEditMode() {

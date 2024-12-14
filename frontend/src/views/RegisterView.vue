@@ -93,7 +93,7 @@
 
 <script>
 
-import { useUserStore } from '@/stores/userStore';
+import { useAuthStore } from '@/stores/authStore';
 import { mapActions } from 'pinia';
 import { useToast } from 'vue-toastification';
 
@@ -116,7 +116,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(useUserStore,['register']),
+    ...mapActions(useAuthStore,['register']),
     async submitForm(data) {
       try {
         await this.register(this.formData)

@@ -30,7 +30,7 @@
 
 <script>
 import { RouterLink } from 'vue-router';
-import { useUserStore } from '@/stores/userStore';
+import { useUserStore } from '@/stores/authStore';
 import { mapState,mapActions } from 'pinia';
 
 

@@ -10,14 +10,14 @@ import Toast from 'vue-toastification'
 import "vue-toastification/dist/index.css";
 
 import { useBookStore } from '@/stores/bookStore';
-import { useUserStore } from '@/stores/userStore';
+import { useAuthStore } from '@/stores/authStore';
 
 const pinia = createPinia();
 const storedUser = localStorage.getItem('user');
 
 if(storedUser){
     const userData = JSON.parse(storedUser);
-    useUserStore(pinia).user = userData;
+    useAuthStore(pinia).user = userData;
 }
 
 const bookStore = useBookStore(pinia);

@@ -55,7 +55,7 @@
 
 <script>
 import SectionHeader from '@/components/SectionHeader.vue';
-import { useUserStore } from '@/stores/userStore';
+import { useAuthStore } from '@/stores/authStore';
 import { mapActions } from 'pinia';
 import { useToast } from 'vue-toastification';
 
@@ -77,7 +77,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(useUserStore,['login']),
+    ...mapActions(useAuthStore,['login']),
     async submitForm(data) {
      try {
         await this.login(this.formData)
