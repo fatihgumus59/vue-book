@@ -75,7 +75,7 @@ const createABook = async (req,res)=>{
             author : req.body?.author,
             description : req.body?.description,
             pageNumber : req.body?.pageNumber,
-            rating : req.body?.rating,
+            uploader : req.user?.id,
         }
 
         insert(data)
@@ -116,7 +116,6 @@ const updateBook = async (req,res)=>{
             author : req.body?.author,
             description : req.body?.description,
             pageNumber : req.body?.pageNumber,
-            rating : req.body?.rating,
         }
 
         modify(id,data)

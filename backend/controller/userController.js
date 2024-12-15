@@ -6,8 +6,6 @@ import { passwordToHash } from "../utils/helper/token.js";
 const updateUser = async (req, res) => {
   const { username, email, password } = req.body;
 
-  console.log(req.body);
-
   const id = req.user._id;
 
   if (isValidObjectId(id, res)) return;

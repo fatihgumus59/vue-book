@@ -75,6 +75,7 @@
                 id="title"
                 name="title"
                 required
+                  v-model="newBook.title"
               />
             </div>
             <div class="col mb-3">
@@ -88,6 +89,7 @@
                 id="author"
                 name="author"
                 required
+                  v-model="newBook.author"
               />
             </div>
             <div class="col mb-3">
@@ -101,6 +103,7 @@
                 class="form-control"
                 cols="30"
                 rows="10"
+                      v-model="newBook.description"
               ></textarea>
             </div>
             <div class="col mb-3">
@@ -114,6 +117,7 @@
                 id="numOfPages"
                 name="numOfPages"
                 required
+                   v-model="newBook.pageNumber"
               />
             </div>
             <div class="text-end mb-4">
@@ -124,7 +128,9 @@
               >
                 Close
               </button>
-              <button type="button" class="btn btn-primary">Save</button>
+              <button @click="addBook" type="button" class="btn btn-primary">
+              Save
+            </button>
             </div>
           </div>
         </div>
@@ -133,14 +139,31 @@
   </template>
   
   <script>
+  import { useBookStore } from '@/stores/bookStore.js';
+  import { mapActions } from 'pinia';
+
   import { Modal } from 'bootstrap';
   export default {
     name: 'DashboardBooks',
     data() {
       return {
         modal: null,
+        newBook: {
+        title: '',
+        author: '',
+        description: '',
+        pageNumber: null,
+      },
       };
     },
+    methods: {
+    ...mapActions(useBookStore, ['addNewBook']),
+    async addBook() {
+      try {
+        await this.addNewBook(this.newBook);
+      } catch (error) {}
+    },
+  },
     mounted() {
       this.modal = new Modal(this.$refs.addEditModal);
     },

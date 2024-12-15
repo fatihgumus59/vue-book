@@ -5,6 +5,7 @@ import { createApp } from 'vue';
 import App from '@/App.vue';
 import router from '@/router/index'
 import {createPinia} from 'pinia'
+import axios from 'axios';
 
 import Toast from 'vue-toastification'
 import "vue-toastification/dist/index.css";
@@ -18,6 +19,12 @@ const storedUser = localStorage.getItem('user');
 if(storedUser){
     const userData = JSON.parse(storedUser);
     useAuthStore(pinia).user = userData;
+
+  const token = userData.acces_token;
+
+  if (token) {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  }
 }
 
 const bookStore = useBookStore(pinia);

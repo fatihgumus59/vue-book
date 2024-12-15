@@ -24,13 +24,11 @@ const BookSchema = new Schema({
         min:0,
         default : 0
     },
-    rating:{
-        type: Number,
-        requried : true,
-        min: 0,
-        max:10,
-        default : 0,
-    },
+    uploader: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        requred: true,
+      },
 },{timestamps: true,versionKey:false});
 
 export default mongoose.model("Book",BookSchema);
