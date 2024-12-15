@@ -1,7 +1,7 @@
 import axios from "axios";
 import { defineStore } from "pinia";
 
-export const useAuthStore = defineStore('userStore',{
+export const useAuthStore = defineStore('authStore',{
     state : ()=> ({
         user: null
     }),
@@ -31,9 +31,10 @@ export const useAuthStore = defineStore('userStore',{
                 const response = await axios.post('http://localhost:3000/api/v1/auth/login',data)
                 this.user = response.data.user;
                 localStorage.setItem('user',JSON.stringify(this.user))
-
-                //this.user = response ? response?.data?.data : [];
-
+                axios.defaults.headers.common[
+                    'Authorization'
+                ] = `Bearer ${response.data.acces_token}`;
+                
             }catch(error){
                 throw error.response.data
             }

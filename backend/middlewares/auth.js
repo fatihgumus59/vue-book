@@ -4,6 +4,8 @@ import { verifyToken } from '../utils/helper/token.js';
 const authenticateUser = async (req,res,next) =>{
     const authHeader = req.headers.authorization;
 
+    console.log(authHeader);
+
     if(!authHeader) return res.status(401).json({message : 'Authorazation header is missing!'})
 
     const tokenParts = authHeader.split(' ')

@@ -30,17 +30,17 @@
 
 <script>
 import { RouterLink } from 'vue-router';
-import { useUserStore } from '@/stores/authStore';
+import { useAuthStore } from '@/stores/authStore';
 import { mapState,mapActions } from 'pinia';
 
 
 export default {
     name: "NavBar",
     computed:{
-        ...mapState(useUserStore,['isLoggedIn'])
+        ...mapState(useAuthStore,['isLoggedIn'])
     },
     methods:{
-        ...mapActions(useUserStore,['logout']),
+        ...mapActions(useAuthStore,['logout']),
         logoutUser(){
             this.logout()
 
